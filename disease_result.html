@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Disease Result - PlantCare</title>
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('{{ url_for("static", filename="bg2.jpeg") }}') center/cover no-repeat fixed; 
+            color: #1a2f1a;
+        }
+        /* Logo Header */
+        header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: rgba(27, 77, 47, 0.85);
+            color: white;
+            padding: 12px 24px;
+            font-size: 24px;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        header img {
+            height: 50px;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+        /* Main container */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            color: #234a2f;
+        }
+        .result-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .uploaded-image img {
+            border-radius: 10px;
+            max-width: 50%;
+            height: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .info {
+            flex: 1;
+            min-width: 250px;
+        }
+        h2 {
+            text-align: center;
+            color: #234a2f;
+            margin-bottom: 20px;
+        }
+        h3 {
+            color: #4CAF50;
+        }
+        p {
+            font-size: 20px;
+            margin: 8px 0;
+            font-weight: 600;
+            text-align: justify;
+        }
+        ul {
+            font-size: 18px ;
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 28px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background 0.3s, transform 0.2s;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(72, 167, 85, 0.3);
+        }
+        .btn:hover, .btn:focus {
+            background-color: #45a049;
+            transform: scale(1.05);
+            outline: none;
+        }
+        @media(max-width: 700px) {
+            .result-wrapper { flex-direction: column; }
+            header { justify-content: center; font-size: 20px; }
+            header img { height: 40px; }
+            .container { margin: 20px 15px; padding: 20px; }
+        }
+
+        /* === Modal Styles === */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            max-width: 400px;
+            animation: fadeIn 0.4s ease;
+        }
+        .modal-content h2 {
+            color: #d9534f;
+            margin-bottom: 15px;
+        }
+        .modal-content p {
+            font-size: 18px;
+            margin: 8px 0;
+            font-weight: 500;
+        }
+        .close-btn {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .close-btn:hover {
+            background-color: #c9302c;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="FarmSavior Logo">
+        FarmSavior - Disease Predicted
+    </header>
+    <div class="container">
+        <h2>Detection Result</h2>
+
+        <div class="result-wrapper">
+            <!-- Uploaded Image -->
+            <div class="uploaded-image">
+                <h3>Uploaded Image:</h3>
+                <img src="{{ url_for('static', filename=image_path) }}" alt="Uploaded Plant Image">
+            </div>
+
+            <div class="uploaded-image">
+    <h3>Diseased Area Highlighted:</h3>
+    <img src="{{ url_for('static', filename=patched_image_path) }}" alt="Highlighted Diseased Area">
+           </div>
+
+            <!-- Disease Info & Remedies -->
+            <div class="info">
+                <p><strong>Disease:</strong> {{ disease }}</p>
+                <p><strong>Severity:</strong> {{ severity }}</p>
+                <p><strong>Confidence:</strong> {{ confidence * 100 }}%</p>
+
+                {% if severity == "High" %}
+                    <h3>Recommended Remedies:</h3>
+                    <ul>
+                        {% for r in remedies %}
+                            <li>{{ r }}</li>
+                        {% endfor %}
+                    </ul>
+                    <p>Follow remedies or Try Crop Recommendation for your next Rotation.</p>
+                    <a href="{{ url_for('crop', disease=disease) }}" class="btn">Go to Crop Recommendation </a>
+                {% else %}
+                    <h3>Recommended Remedies:</h3>
+                    <ul>
+                        {% for r in remedies %}
+                            <li>{{ r }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                <a href="{{ url_for('disease') }}" class="btn"> Back</a>
+                <!-- PDF Download Button -->
+                <form action="{{ url_for('download_disease_pdf') }}" method="post">
+                    <input type="hidden" name="disease" value="{{ disease }}">
+                    <input type="hidden" name="severity" value="{{ severity }}">
+                    <input type="hidden" name="image_path" value="{{ image_path }}">
+                    {% for r in remedies %}
+                        <input type="hidden" name="remedies" value="{{ r }}">
+                    {% endfor %}
+                    <button type="submit" class="btn">📥 Download Disease Report as PDF</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Alert (for ALL severities) -->
+    {% if show_alert %}
+    <div id="alertModal" class="modal">
+        <div class="modal-content">
+            <h2>⚠️ Disease Detected</h2>
+            <p><strong>Disease:</strong> {{ disease }}</p>
+            <p><strong>Severity:</strong> {{ severity }}</p>
+            <p><strong>Confidence:</strong> {{ confidence * 100 }}%</p>
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Show modal automatically
+        document.getElementById("alertModal").style.display = "flex";
+        function closeModal() {
+            document.getElementById("alertModal").style.display = "none";
+        }
+    </script>
+    {% endif %}
+</body>
+</html>

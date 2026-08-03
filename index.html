@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmSavior - Smart Farming Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: url('{{ url_for("static", filename="bg1.jpeg") }}') center/cover no-repeat fixed;
+            color: #fff;
+        }
+        nav {
+            width: 100vw; /* ensures full viewport width */
+            min-width: 0;
+            height: 90px; /* increased height for bigger logo */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(27,77,47,0.7);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            padding: 0 48px;
+            box-sizing: border-box;
+            overflow-x: auto; /* ensures no hidden overflow */
+        }
+        .logo-bar {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .logo-bar img {
+            height: 80px;
+            width: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .logo-bar .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #fff;
+            white-space: nowrap;
+        }
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            flex-shrink: 0;
+            align-items: center;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: color 0.2s, background 0.2s;
+            white-space: nowrap;
+            display: block;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #a8e6a1;
+            background: rgba(27,77,47,0.24);
+        }
+        .hero {
+            min-height: 100vh;
+            padding-top: 150px;
+            padding-left: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .hero p {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 32px;
+            max-width: 700px;
+            text-align: justify;
+            line-height: 2.0;
+            color: #1a2f1a;
+        }
+        .hero .btn {
+            display: inline-flex;
+            width: fit-content;
+            gap: 8px;
+            align-items: center;
+            background-color: #a8e6a1;
+            color: #1b4d2f;
+            padding: 25px;
+            margin: 12px 0;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+        }
+        .hero .btn:hover {
+            background-color: #8cd68d;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        footer {
+            text-align: center;
+            padding: 17px 0 10px 0;
+            font-size: 16px;
+            color: #fff;
+            background: transparent;
+        }
+        @media(max-width: 900px) {
+            nav {
+                padding: 0 12px;
+            }
+            .nav-links {
+                gap: 18px;
+            }
+            .logo-bar img {
+                height: 50px;
+                width: 50px;
+            }
+            .logo-bar .logo-text {
+                font-size: 18px;
+            }
+        }
+        @media(max-width: 600px) {
+            nav {
+                flex-direction: column;
+                height: auto;
+                padding: 8px 6px;
+            }
+            .logo-bar {
+                margin-bottom: 4px;
+            }
+            .nav-links {
+                justify-content: center;
+                gap: 10px;
+                width: 100%;
+            }
+            .hero {
+                padding-left: 14px;
+                padding-top: 95px;
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo-bar">
+            <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="FarmSavior Logo">
+            <span class="logo-text">FarmSavior</span>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}" class="active">Home</a>
+        </div>
+    </nav>
+    <section class="hero">
+        <h1>Welcome to FarmSavior</h1>
+        <p>
+            FarmSavior is your AI-powered farming partner.
+            It detects plant diseases, measures their severity, and gives instant treatment advice to protect your crops.
+            With smart crop recommendations based on the soil level and climate, FarmSavior helps you choose the right crop at the right time. It helps you estimate production in advance so you can plan harvesting, storage, and sales efficiently. Smart guidance for every season.
+            Grow smarter. Reduce losses. Harvest more.
+        </p>
+
+        <div style="display:flex; gap:20px; flex-wrap:wrap;">
+        <a href="{{ url_for('disease') }}" class="btn"> Explore </a>
+        <a href="{{ url_for('yield_prediction') }}" class="btn"> Yield Prediction 🌾 </a>
+        <a href="{{ url_for('tips') }}" class="btn"> Seasonal Tips 🌱 </a>
+    </div>
+    </section>
+        <a href="{{ url_for('disease') }}" class="btn"> Explore </a>
+        <!-- Add somewhere in your main container -->
+       <div class="navigation-buttons">
+            <a href="{{ url_for('tips') }}" class="btn">Seasonal Tips 🌱</a>
+        </div>
+    </section>
+    <footer>© 2026 FarmSavior</footer>
+</body>
+</html>

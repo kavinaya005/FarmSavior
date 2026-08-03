@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FarmSavior - Seasonal Tips</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            margin: 0; 
+            padding: 0; 
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            background: url('{{ url_for("static", filename="bg2.jpeg") }}') no-repeat center center fixed;
+            background-size: cover;
+            color: #1a2f1a;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            background: rgba(27, 77, 47, 0.9);
+            padding: 12px 24px;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px;
+            max-width: 700px;
+            margin: 140px auto 40px auto;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgb(34 74 47 / 0.25);
+        }
+
+        h2 {
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #234A2F;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #234A2F;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        strong {
+            color: #1b4d2f;
+        }
+
+        .navigation {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .navigation a {
+            background-color: #a8e6a1;
+            color: #1b4d2f;
+            padding: 12px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .navigation a:hover {
+            background-color: #8cd68d;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        @media(max-width: 640px) {
+            .container {
+                margin: 110px 20px 30px;
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>🌾 Seasonal Farming Tips</header>
+
+    <div class="container">
+        <h2>Seasonal Tips</h2>
+        <ul>
+            {% for tip in tips %}
+            <li>
+                {% set formatted_tip = tip
+                    |replace("Spring", "🌱 <strong>Spring</strong>")
+                    |replace("Summer", "☀️ <strong>Summer</strong>")
+                    |replace("Autumn", "🍂 <strong>Autumn</strong>")
+                    |replace("Monsoon", "🌧️ <strong>Monsoon</strong>")
+                    |replace("Winter", "❄️ <strong>Winter</strong>") %}
+                {{ formatted_tip|safe }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="navigation">
+        <a href="{{ url_for('index') }}">⬅ Back to Home</a>
+    </div>
+</body>
+</html>
